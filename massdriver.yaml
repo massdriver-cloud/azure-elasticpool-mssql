@@ -182,7 +182,8 @@ params:
         model:
           type: string
           title: Elastic Pool Model
-          description: The model of the Azure SQL Elastic Pool.
+          description: The model of the Azure SQL Elastic Pool. **Cannot be changed after deployment**.
+          $md.immutable: true
           enum:
             - vCore
             - DTU

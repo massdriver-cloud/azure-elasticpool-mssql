@@ -59,7 +59,7 @@ Form input parameters for configuring a bundle for deployment.
   - **`max_capacity`** *(integer)*: The maximum amount of DTUs/vCores to allocate per database. **Cannot exceed total DTU/vCore capacity of the pool**. (Minimum of 2, maximum of 4000). Minimum: `2`. Maximum: `4000`.
   - **`min_capacity`** *(integer)*: The minimum amount of DTUs/vCores to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 4000). Minimum: `0`. Maximum: `4000`. Default: `0`.
 - **`elasticpool`** *(object)*
-  - **`model`** *(string)*: The model of the Azure SQL Elastic Pool. Must be one of: `['vCore', 'DTU']`.
+  - **`model`** *(string)*: The model of the Azure SQL Elastic Pool. **Cannot be changed after deployment**. Must be one of: `['vCore', 'DTU']`.
 - **`network`** *(object)*
   - **`auto`** *(boolean)*: Enabling this will automatically select an available CIDR range for your database. Unchecking will require you to specify the CIDR. Default: `True`.
 - **`server`** *(object)*

@@ -21,6 +21,17 @@ locals {
     "BC_Gen5" = "Gen5"
     "BC_DC"   = "DC"
   }
+  # Maps the DTU count in basic tier to static storage volume
+  basic_dtu_map = {
+    "50"   = "4.8828125"
+    "100"  = "9.765625"
+    "200"  = "19.5312500"
+    "300"  = "29.296875"
+    "400"  = "39.0625"
+    "800"  = "78.125"
+    "1200" = "117.1875"
+    "1600" = "156.25"
+  }
 }
 
 resource "azurerm_resource_group" "main" {
@@ -30,8 +41,8 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "random_password" "master_password" {
-  length  = 10
-  special = false
+  length  = 16
+  special = true
 }
 
 resource "azurerm_mssql_server" "main" {
@@ -54,7 +65,7 @@ resource "azurerm_mssql_elasticpool" "main" {
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   server_name         = azurerm_mssql_server.main.name
-  max_size_gb         = var.elasticpool.tier == "Basic" ? "4.8828125" : var.elasticpool.max_size
+  max_size_gb         = var.elasticpool.tier == "Basic" ? local.basic_dtu_map[var.elasticpool.capacity] : var.elasticpool.max_size
   zone_redundant      = var.elasticpool.tier == "Premium" || var.elasticpool.tier == "BusinessCritical" ? var.elasticpool.zone_redundant : false
   tags                = var.md_metadata.default_tags
 
