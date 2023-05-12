@@ -1,0 +1,6 @@
+{
+    "do_not_delete": [
+        "azurerm_mssql_server",
+        "azurerm_mssql_elasticpool"
+    ]
+}
