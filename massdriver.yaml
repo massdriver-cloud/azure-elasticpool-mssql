@@ -755,6 +755,8 @@ params:
     network:
       type: object
       title: Networking
+      required:
+        - auto
       properties:
         auto:
           title: Automatic CIDR Selection
