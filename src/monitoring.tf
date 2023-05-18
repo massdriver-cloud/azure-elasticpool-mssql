@@ -41,17 +41,11 @@ module "alarm_channel" {
 }
 
 # This sleep resource is needed because the metrics are not available immediately after the elastic pool is created.
-resource "null_resource" "sleep" {
-  triggers = {
-    sleep_time = 30
-  }
-  provisioner "local-exec" {
-    command = "sleep 30"
-  }
-
+resource "time_sleep" "wait_30_sec" {
   depends_on = [
     azurerm_mssql_elasticpool.main
   ]
+  create_duration = "30s"
 }
 
 module "cpu_metric_alert" {
@@ -65,7 +59,7 @@ module "cpu_metric_alert" {
   window_size             = local.alarms.cpu_metric_alert.window_size
 
   depends_on = [
-    null_resource.sleep
+    time_sleep.wait_30_sec
   ]
 
   md_metadata  = var.md_metadata
@@ -91,7 +85,7 @@ module "dtu_percent_metric_alert" {
   window_size             = local.alarms.dtu_percent_metric_alert.window_size
 
   depends_on = [
-    null_resource.sleep
+    time_sleep.wait_30_sec
   ]
 
   md_metadata  = var.md_metadata
@@ -117,7 +111,7 @@ module "storage_metric_alert" {
   window_size             = local.alarms.storage_metric_alert.window_size
 
   depends_on = [
-    null_resource.sleep
+    time_sleep.wait_30_sec
   ]
 
   md_metadata  = var.md_metadata
