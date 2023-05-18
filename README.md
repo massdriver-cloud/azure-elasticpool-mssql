@@ -34,7 +34,6 @@ Security and compliance scanning of our bundles is performed using [Bridgecrew](
 | Benchmark                                                                                                                                                                                                                                                       | Description                        |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | [![Infrastructure Security](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-elasticpool-mssql/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=&benchmark=INFRASTRUCTURE+SECURITY) | Infrastructure Security Compliance |
-
 | [![PCI-DSS](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-elasticpool-mssql/pci>)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=&benchmark=PCI-DSS+V3.2) | Payment Card Industry Data Security Standards Compliance |
 | [![NIST-800-53](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-elasticpool-mssql/nist>)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=&benchmark=NIST-800-53) | National Institute of Standards and Technology Compliance |
 | [![ISO27001](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-elasticpool-mssql/iso>)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=&benchmark=ISO27001) | Information Security Management System, ISO/IEC 27001 Compliance |
@@ -60,6 +59,12 @@ Form input parameters for configuring a bundle for deployment.
   - **`min_capacity`** *(integer)*: The minimum amount of DTUs/vCores to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 4000). Minimum: `0`. Maximum: `4000`. Default: `0`.
 - **`elasticpool`** *(object)*
   - **`model`** *(string)*: The model of the Azure SQL Elastic Pool. **Cannot be changed after deployment**. Must be one of: `['vCore', 'DTU']`.
+- **`monitoring`** *(object)*
+  - **`mode`** *(string)*: Enable and customize Function App metric alarms. Default: `AUTOMATED`.
+    - **One of**
+      - Automated
+      - Custom
+      - Disabled
 - **`network`** *(object)*
   - **`auto`** *(boolean)*: Enabling this will automatically select an available CIDR range for your database. Unchecking will require you to specify the CIDR. Default: `True`.
 - **`server`** *(object)*

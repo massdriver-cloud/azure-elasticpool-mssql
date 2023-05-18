@@ -2,108 +2,108 @@ schema: draft-07
 name: "azure-elasticpool-mssql"
 description: "Azure SQL Database elastic pools are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price. Elastic pools in SQL Database enable software as a service (SaaS) developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database."
 source_url: github.com/massdriver-cloud/azure-elasticpool-mssql
-access: private
+access: public
 type: infrastructure
 
-# MonitorAlarmMetric: &monitor_alarm_metric
-#   required:
-#     - severity
-#     - frequency
-#     - window_size
-#     - aggregation
-#     - operator
-#     - threshold
-#   properties:
-#     severity:
-#       title: Severity
-#       description: The severity of the alarm.
-#       type: integer
-#       default: 1
-#       oneOf:
-#         - title: Critical
-#           const: 0
-#         - title: Error
-#           const: 1
-#         - title: Warning
-#           const: 2
-#         - title: Information
-#           const: 3
-#         - title: Verbose
-#           const: 4
-#     frequency:
-#       title: Frequency
-#       description: The evaluation frequency of the alarms.
-#       type: string
-#       default: PT1M
-#       oneOf:
-#         - title: Every 1 minute
-#           const: PT1M
-#         - title: Every 5 minutes
-#           const: PT5M
-#         - title: Every 15 minutes
-#           const: PT15M
-#         - title: Every 30 minutes
-#           const: PT30M
-#         - title: Every 1 hour
-#           const: PT1H
-#     window_size:
-#       title: Alarm window
-#       description: The time range over which the alarm is evaluated.
-#       type: string
-#       default: PT5M
-#       oneOf:
-#         - title: Every 1 minute
-#           const: PT1M
-#         - title: Every 5 minutes
-#           const: PT5M
-#         - title: Every 15 minutes
-#           const: PT15M
-#         - title: Every 30 minutes
-#           const: PT30M
-#         - title: Every 1 hour
-#           const: PT1H
-#         - title: Every 6 hours
-#           const: PT6H
-#         - title: Every 12 hours
-#           const: PT12H
-#         - title: Every 24 hours
-#           const: P1D
-#     aggregation:
-#       title: Aggregation
-#       description: The aggregation type of the alarm.
-#       type: string
-#       default: Average
-#       enum:
-#         - Average
-#         - Count
-#         - Minimum
-#         - Maximum
-#         - Total
-#     operator:
-#       title: Operator
-#       description: The operator used to compare the metric value to the threshold.
-#       type: string
-#       default: GreaterThanOrEqual
-#       oneOf:
-#         - title: Greater than or equal to
-#           const: GreaterThanOrEqual
-#         - title: Greater than
-#           const: GreaterThan
-#         - title: Less than or equal to
-#           const: LessThanOrEqual
-#         - title: Less than
-#           const: LessThan
-#         - title: Equals
-#           const: Equals
-#         - title: Not equal to
-#           const: NotEquals
-#     threshold:
-#       title: Threshold
-#       description: The percentage threshold for the metric to trigger an alarm.
-#       type: integer
-#       default: 90
-#       minimum: 0
-#       maximum: 100
+MonitorAlarmMetric: &monitor_alarm_metric
+  required:
+    - severity
+    - frequency
+    - window_size
+    - aggregation
+    - operator
+    - threshold
+  properties:
+    severity:
+      title: Severity
+      description: The severity of the alarm.
+      type: integer
+      default: 1
+      oneOf:
+        - title: Critical
+          const: 0
+        - title: Error
+          const: 1
+        - title: Warning
+          const: 2
+        - title: Information
+          const: 3
+        - title: Verbose
+          const: 4
+    frequency:
+      title: Frequency
+      description: The evaluation frequency of the alarms.
+      type: string
+      default: PT1M
+      oneOf:
+        - title: Every 1 minute
+          const: PT1M
+        - title: Every 5 minutes
+          const: PT5M
+        - title: Every 15 minutes
+          const: PT15M
+        - title: Every 30 minutes
+          const: PT30M
+        - title: Every 1 hour
+          const: PT1H
+    window_size:
+      title: Alarm window
+      description: The time range over which the alarm is evaluated.
+      type: string
+      default: PT5M
+      oneOf:
+        - title: Every 1 minute
+          const: PT1M
+        - title: Every 5 minutes
+          const: PT5M
+        - title: Every 15 minutes
+          const: PT15M
+        - title: Every 30 minutes
+          const: PT30M
+        - title: Every 1 hour
+          const: PT1H
+        - title: Every 6 hours
+          const: PT6H
+        - title: Every 12 hours
+          const: PT12H
+        - title: Every 24 hours
+          const: P1D
+    aggregation:
+      title: Aggregation
+      description: The aggregation type of the alarm.
+      type: string
+      default: Average
+      enum:
+        - Average
+        - Count
+        - Minimum
+        - Maximum
+        - Total
+    operator:
+      title: Operator
+      description: The operator used to compare the metric value to the threshold.
+      type: string
+      default: GreaterThanOrEqual
+      oneOf:
+        - title: Greater than or equal to
+          const: GreaterThanOrEqual
+        - title: Greater than
+          const: GreaterThan
+        - title: Less than or equal to
+          const: LessThanOrEqual
+        - title: Less than
+          const: LessThan
+        - title: Equals
+          const: Equals
+        - title: Not equal to
+          const: NotEquals
+    threshold:
+      title: Threshold
+      description: The percentage threshold for the metric to trigger an alarm.
+      type: integer
+      default: 90
+      minimum: 0
+      maximum: 100
 
 params:
   examples:
@@ -783,51 +783,50 @@ params:
                   pattern: "Must be a /28 range from within the VNet CIDR"
             required:
             - cidr
-    # monitoring:
-    #   type: object
-    #   title: Monitoring
-    #   properties:
-    #     mode:
-    #       title: Alarm Mode
-    #       description: Enable and customize Function App metric alarms.
-    #       type: string
-    #       default: AUTOMATED
-    #       oneOf:
-    #         - const: AUTOMATED
-    #           title: Automated
-    #         - const: CUSTOM
-    #           title: Custom
-    #         - const: DISABLED
-    #           title: Disabled
-    #   dependencies:
-    #     mode:
-    #       oneOf:
-    #         - properties:
-    #             mode:
-    #               const: AUTOMATED
-    #         - properties:
-    #             mode:
-    #               const: DISABLED
-    #         - properties:
-    #             mode:
-    #               const: CUSTOM
-    #             alarms:
-    #               type: object
-    #               title: Alarms
-    #               properties:
-    #                 cpu_metric_alert:
-    #                   title: CPU
-    #                   type: object
-    #                   <<: *monitor_alarm_metric
-    #                 dtu_percent_metric_alert:
-    #                   title: DTU
-    #                   type: object
-    #                   <<: *monitor_alarm_metric
-    #                 storage_metric_alert:
-    #                   title: Storage
-    #                   type: object
-    #                   <<: *monitor_alarm_metric
-
+    monitoring:
+      type: object
+      title: Monitoring
+      properties:
+        mode:
+          title: Alarm Mode
+          description: Enable and customize Function App metric alarms.
+          type: string
+          default: AUTOMATED
+          oneOf:
+            - const: AUTOMATED
+              title: Automated
+            - const: CUSTOM
+              title: Custom
+            - const: DISABLED
+              title: Disabled
+      dependencies:
+        mode:
+          oneOf:
+            - properties:
+                mode:
+                  const: AUTOMATED
+            - properties:
+                mode:
+                  const: DISABLED
+            - properties:
+                mode:
+                  const: CUSTOM
+                alarms:
+                  type: object
+                  title: Alarms
+                  properties:
+                    cpu_metric_alert:
+                      title: CPU
+                      type: object
+                      <<: *monitor_alarm_metric
+                    dtu_percent_metric_alert:
+                      title: DTU
+                      type: object
+                      <<: *monitor_alarm_metric
+                    storage_metric_alert:
+                      title: Storage
+                      type: object
+                      <<: *monitor_alarm_metric
 
 connections:
   required:
@@ -853,7 +852,7 @@ ui:
     - database
     - audit
     - network
-    # - monitoring
+    - monitoring
     - "*"
   server:
     ui:order:
@@ -882,27 +881,27 @@ ui:
       - auto
       - cidr
       - "*"
-  # monitoring:
-  #   ui:order:
-  #     - mode
-  #     - alarms
-  #     - '*'
-  #   alarms:
-  #     ui:order:
-  #       - cpu_metric_alert
-  #       - dtu_percent_metric_alert
-  #       - storage_metric_alert
-  #       - '*'
-  #     cpu_metric_alert: &monitor_alarm_metric_ui
-  #       ui:order:
-  #         - severity
-  #         - operator
-  #         - aggregation
-  #         - frequency
-  #         - window_size
-  #         - threshold
-  #         - '*'
-  #     dtu_percent_metric_alert:
-  #       <<: *monitor_alarm_metric_ui
-  #     storage_metric_alert:
-  #       <<: *monitor_alarm_metric_ui
+  monitoring:
+    ui:order:
+      - mode
+      - alarms
+      - '*'
+    alarms:
+      ui:order:
+        - cpu_metric_alert
+        - dtu_percent_metric_alert
+        - storage_metric_alert
+        - '*'
+      cpu_metric_alert: &monitor_alarm_metric_ui
+        ui:order:
+          - severity
+          - operator
+          - aggregation
+          - frequency
+          - window_size
+          - threshold
+          - '*'
+      dtu_percent_metric_alert:
+        <<: *monitor_alarm_metric_ui
+      storage_metric_alert:
+        <<: *monitor_alarm_metric_ui
