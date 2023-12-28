@@ -55,8 +55,8 @@ Form input parameters for configuring a bundle for deployment.
 - **`audit`** *(object)*
   - **`data_protection`** *(integer)*: Set the number of days to allow data recovery if auditing data is deleted from storage account (minimum 0 [infinite], maximum 3285). Minimum: `0`. Maximum: `3285`. Default: `90`.
 - **`database`** *(object)*
-  - **`max_capacity`** *(integer)*: The maximum amount of DTUs/vCores to allocate per database. **Cannot exceed total DTU/vCore capacity of the pool**. (Minimum of 2, maximum of 4000). Minimum: `2`. Maximum: `4000`.
-  - **`min_capacity`** *(integer)*: The minimum amount of DTUs/vCores to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 4000). Minimum: `0`. Maximum: `4000`. Default: `0`.
+  - **`max_capacity`** *(integer)*: Select an Elasticpool model to configure this setting.
+  - **`min_capacity`** *(integer)*: Select an Elasticpool model to configure this setting.
 - **`elasticpool`** *(object)*
   - **`model`** *(string)*: The model of the Azure SQL Elastic Pool. **Cannot be changed after deployment**. Must be one of: `['vCore', 'DTU']`.
 - **`monitoring`** *(object)*
@@ -321,6 +321,49 @@ Resources created by this bundle that can be connected to other bundles.
                 ```
 
   - **`specs`** *(object)*: Cannot contain additional properties.
+    - **`aws`** *(object)*: .
+      - **`region`** *(string)*: AWS Region to provision in.
+
+        Examples:
+        ```json
+        "us-west-2"
+        ```
+
+    - **`azure`** *(object)*: .
+      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
+    - **`gcp`** *(object)*: .
+      - **`project`** *(string)*
+      - **`region`** *(string)*: The GCP region to provision resources in.
+
+        Examples:
+        ```json
+        "us-east1"
+        ```
+
+        ```json
+        "us-east4"
+        ```
+
+        ```json
+        "us-west1"
+        ```
+
+        ```json
+        "us-west2"
+        ```
+
+        ```json
+        "us-west3"
+        ```
+
+        ```json
+        "us-west4"
+        ```
+
+        ```json
+        "us-central1"
+        ```
+
     - **`rdbms`** *(object)*: Common metadata for relational databases.
       - **`engine`** *(string)*: The type of database server.
 
