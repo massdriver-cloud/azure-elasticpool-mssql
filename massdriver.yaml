@@ -138,7 +138,7 @@ params:
     - database
     - audit
     - network
-    # - monitoring
+    - monitoring
   properties:
     server:
       type: object
@@ -729,16 +729,11 @@ params:
         min_capacity:
           type: integer
           title: Minimum capacity per database
-          description: The minimum amount of DTUs/vCores to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 4000)
-          default: 0
-          minimum: 0
-          maximum: 4000
+          description: Select an Elasticpool model to configure this setting.
         max_capacity:
           type: integer
           title: Maximum capacity per database
-          description: The maximum amount of DTUs/vCores to allocate per database. **Cannot exceed total DTU/vCore capacity of the pool**. (Minimum of 2, maximum of 4000)
-          minimum: 2
-          maximum: 4000
+          description: Select an Elasticpool model to configure this setting.
     audit:
       type: object
       title: Auditing Retention Configuration
@@ -827,6 +822,99 @@ params:
                       title: Storage
                       type: object
                       <<: *monitor_alarm_metric
+  dependencies:
+    elasticpool:
+      oneOf:
+        - properties:
+            elasticpool:
+              properties:
+                tier:
+                  const: Basic
+            database:
+              properties:
+                min_capacity:
+                  description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 5)
+                  default: 0
+                  minimum: 0
+                  maximum: 5
+                max_capacity:
+                  description: The maximum amount of DTUs to allocate per database. (Minimum of 1, maximum of 5)
+                  default: 1
+                  minimum: 1
+                  maximum: 5
+        - properties:
+            elasticpool:
+              properties:
+                tier:
+                  const: Standard
+            database:
+              properties:
+                min_capacity:
+                  description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity or allocated DTUs**. (Minimum of 0, maximum of 3000)
+                  default: 0
+                  minimum: 0
+                  maximum: 3000
+                max_capacity:
+                  description: The maximum amount of DTUs to allocate per database. **Cannot exceed allocated DTUs**. (Minimum of 10, maximum of 3000)
+                  default: 10
+                  minimum: 10
+                  maximum: 3000
+        - properties:
+            elasticpool:
+              properties:
+                tier:
+                  const: Premium
+            database:
+              properties:
+                min_capacity:
+                  description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity or allocated DTUs**. (Minimum of 0, maximum of 4000)
+                  default: 0
+                  minimum: 0
+                  maximum: 4000
+                max_capacity:
+                  description: The maximum amount of DTUs to allocate per database. **Cannot exceed allocated DTUs**. (Minimum of 25, maximum of 4000)
+                  default: 25
+                  minimum: 25
+                  maximum: 4000
+        - properties:
+            elasticpool:
+              properties:
+                tier:
+                  enum:
+                    - GP_Gen5
+                    - GP_DC
+                    - GP_Fsv2
+            database:
+              properties:
+                min_capacity:
+                  description: The minimum amount of vCores to allocate per database. **Cannot exceed Maximum capacity or allocated vCores**. (Minimum of 0, maximum of 128)
+                  default: 0
+                  minimum: 0
+                  maximum: 128
+                max_capacity:
+                  description: The maximum amount of vCores to allocate per database. **Cannot exceed allocated vCores**. (Minimum of 0.25, maximum of 128)
+                  default: 0.25
+                  minimum: 0.25
+                  maximum: 128
+        - properties:
+            elasticpool:
+              properties:
+                tier:
+                  enum:
+                    - BC_Gen5
+                    - BC_DC
+            database:
+              properties:
+                min_capacity:
+                  description: The minimum amount of vCores to allocate per database. **Cannot exceed Maximum capacity or allocated vCores**. (Minimum of 0, maximum of 128)
+                  default: 0
+                  minimum: 0
+                  maximum: 128
+                max_capacity:
+                  description: The maximum amount of vCores to allocate per database. **Cannot exceed allocated vCores**. (Minimum of 0.25, maximum of 128)
+                  default: 0.25
+                  minimum: 0.25
+                  maximum: 128
 
 connections:
   required:
