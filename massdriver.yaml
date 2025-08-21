@@ -1,102 +1,100 @@
 schema: draft-07
-name: "azure-elasticpool-mssql"
-description: "Azure SQL Database elastic pools are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price. Elastic pools in SQL Database enable software as a service (SaaS) developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database."
-source_url: github.com/massdriver-cloud/azure-elasticpool-mssql
-access: public
-type: infrastructure
-
-MonitorAlarmMetric: &monitor_alarm_metric
-  required:
-    - severity
-    - frequency
-    - window_size
-    - aggregation
-    - operator
-    - threshold
-  properties:
+name: azure-elasticpool-mssql
+version: 1.0.0
+description: Azure SQL Database elastic pools are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price. Elastic pools in SQL Database enable software as a service (SaaS) developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database.
+source_url: https://github.com/massdriver-cloud/azure-elasticpool-mssql
+MonitorAlarmMetric:
+  required: &1
+  - severity
+  - frequency
+  - window_size
+  - aggregation
+  - operator
+  - threshold
+  properties: &2
     severity:
       title: Severity
       description: The severity of the alarm.
       type: integer
       default: 1
       oneOf:
-        - title: Critical
-          const: 0
-        - title: Error
-          const: 1
-        - title: Warning
-          const: 2
-        - title: Information
-          const: 3
-        - title: Verbose
-          const: 4
+      - title: Critical
+        const: 0
+      - title: Error
+        const: 1
+      - title: Warning
+        const: 2
+      - title: Information
+        const: 3
+      - title: Verbose
+        const: 4
     frequency:
       title: Frequency
       description: The evaluation frequency of the alarms.
       type: string
       default: PT1M
       oneOf:
-        - title: Every 1 minute
-          const: PT1M
-        - title: Every 5 minutes
-          const: PT5M
-        - title: Every 15 minutes
-          const: PT15M
-        - title: Every 30 minutes
-          const: PT30M
-        - title: Every 1 hour
-          const: PT1H
+      - title: Every 1 minute
+        const: PT1M
+      - title: Every 5 minutes
+        const: PT5M
+      - title: Every 15 minutes
+        const: PT15M
+      - title: Every 30 minutes
+        const: PT30M
+      - title: Every 1 hour
+        const: PT1H
     window_size:
       title: Alarm window
       description: The time range over which the alarm is evaluated.
       type: string
       default: PT5M
       oneOf:
-        - title: Every 1 minute
-          const: PT1M
-        - title: Every 5 minutes
-          const: PT5M
-        - title: Every 15 minutes
-          const: PT15M
-        - title: Every 30 minutes
-          const: PT30M
-        - title: Every 1 hour
-          const: PT1H
-        - title: Every 6 hours
-          const: PT6H
-        - title: Every 12 hours
-          const: PT12H
-        - title: Every 24 hours
-          const: P1D
+      - title: Every 1 minute
+        const: PT1M
+      - title: Every 5 minutes
+        const: PT5M
+      - title: Every 15 minutes
+        const: PT15M
+      - title: Every 30 minutes
+        const: PT30M
+      - title: Every 1 hour
+        const: PT1H
+      - title: Every 6 hours
+        const: PT6H
+      - title: Every 12 hours
+        const: PT12H
+      - title: Every 24 hours
+        const: P1D
     aggregation:
       title: Aggregation
       description: The aggregation type of the alarm.
       type: string
       default: Average
       enum:
-        - Average
-        - Count
-        - Minimum
-        - Maximum
-        - Total
+      - Average
+      - Count
+      - Minimum
+      - Maximum
+      - Total
     operator:
       title: Operator
       description: The operator used to compare the metric value to the threshold.
       type: string
       default: GreaterThanOrEqual
       oneOf:
-        - title: Greater than or equal to
-          const: GreaterThanOrEqual
-        - title: Greater than
-          const: GreaterThan
-        - title: Less than or equal to
-          const: LessThanOrEqual
-        - title: Less than
-          const: LessThan
-        - title: Equals
-          const: Equals
-        - title: Not equal to
-          const: NotEquals
+      - title: Greater than or equal to
+        const: GreaterThanOrEqual
+      - title: Greater than
+        const: GreaterThan
+      - title: Less than or equal to
+        const: LessThanOrEqual
+      - title: Less than
+        const: LessThan
+      - title: Equals
+        const: Equals
+      - title: Not equal to
+        const: NotEquals
     threshold:
       title: Threshold
       description: The percentage threshold for the metric to trigger an alarm.
@@ -104,627 +102,626 @@ MonitorAlarmMetric: &monitor_alarm_metric
       default: 90
       minimum: 0
       maximum: 100
-
 params:
   examples:
-    - __name: Development
-      server:
-        version: "12.0"
-      elasticpool:
-        model: DTU
-        tier: Basic
-        capacity: 50
-      database:
-        min_capacity: 0
-        max_capacity: 5
-      audit:
-        data_protection: 7
-    - __name: Production
-      server:
-        version: "12.0"
-      elasticpool:
-        model: vCore
-        tier: GP_Gen5
-        capacity: 10
-        max_size: 500
-      database:
-        min_capacity: 0
-        max_capacity: 5
-      audit:
-        data_protection: 90
+  - __name: Development
+    server:
+      version: '12.0'
+    elasticpool:
+      model: DTU
+      tier: Basic
+      capacity: 50
+    database:
+      min_capacity: 0
+      max_capacity: 5
+    audit:
+      data_protection: 7
+  - __name: Production
+    server:
+      version: '12.0'
+    elasticpool:
+      model: vCore
+      tier: GP_Gen5
+      capacity: 10
+      max_size: 500
+    database:
+      min_capacity: 0
+      max_capacity: 5
+    audit:
+      data_protection: 90
   required:
-    - server
-    - elasticpool
-    - database
-    - audit
-    - network
-    - monitoring
+  - server
+  - elasticpool
+  - database
+  - audit
+  - network
+  - monitoring
   properties:
     server:
       type: object
       title: SQL Server Configuration
       required:
-        - version
-        - admin_login
+      - version
+      - admin_login
       properties:
         version:
           type: string
           title: SQL Server Version
           description: The version of the Azure SQL Server. **Cannot be changed after deployment**.
-          $md.immutable: true
-          default: "12.0"
+          "$md.immutable": true
+          default: '12.0'
           oneOf:
-            - title: v11
-              const: "2.0"
-            - title: v12
-              const: "12.0"
+          - title: v11
+            const: '2.0'
+          - title: v12
+            const: '12.0'
         admin_login:
           type: string
           title: Admin Username
           description: The administrator username for the Azure SQL Server. **Cannot be changed after deployment**. (Username cannot be 'admin', 'root', 'administrator', 'username', 'azure_superuser', 'azure_pg_admin', 'guest', or 'public'.)
-          $md.immutable: true
+          "$md.immutable": true
           not:
             enum:
-              - admin
-              - root
-              - administrator
-              - username
-              - azure_superuser
-              - azure_pg_admin
-              - guest
-              - public
+            - admin
+            - root
+            - administrator
+            - username
+            - azure_superuser
+            - azure_pg_admin
+            - guest
+            - public
     elasticpool:
       type: object
       title: Elastic Pool Configuration
       required:
-        - model
+      - model
       properties:
         model:
           type: string
           title: Elastic Pool Model
           description: The model of the Azure SQL Elastic Pool. **Cannot be changed after deployment**.
-          $md.immutable: true
+          "$md.immutable": true
           enum:
-            - vCore
-            - DTU
+          - vCore
+          - DTU
       dependencies:
         model:
           oneOf:
-            - properties:
-                model:
-                  const: vCore
-                tier:
-                  type: string
-                  title: SKU Tier
-                  description: The SKU tier of the Azure SQL Elastic Pool. [Learn more](https://docs.microsoft.com/en-us/azure/azure-sql/database/service-tiers-vcore?tabs=azure-portal#elastic-pool-pricing). (**GP** = General Purpose, **BC** = Business Critical). [Region availability](https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tiers-sql-database-vcore?view=azuresql#hardware-availability).
-                  default: GP_Gen5
-                  oneOf:
-                    - title: GP_Gen5 Standard (128 max vCores, 625GB max memory)
-                      const: GP_Gen5
-                    - title: GP_Fsv2 Compute Optimized (72 max vCores, 136GB max memory)
-                      const: GP_Fsv2
-                    - title: GP_DC Confidential Compute (8 max vCores, 32GB max memory)
-                      const: GP_DC
-                    - title: BC_Gen5 Standard (128 max vCores, 625 max memory)
+          - properties:
+              model:
+                const: vCore
+              tier:
+                type: string
+                title: SKU Tier
+                description: The SKU tier of the Azure SQL Elastic Pool. [Learn more](https://docs.microsoft.com/en-us/azure/azure-sql/database/service-tiers-vcore?tabs=azure-portal#elastic-pool-pricing). (**GP** = General Purpose, **BC** = Business Critical). [Region availability](https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tiers-sql-database-vcore?view=azuresql#hardware-availability).
+                default: GP_Gen5
+                oneOf:
+                - title: GP_Gen5 Standard (128 max vCores, 625GB max memory)
+                  const: GP_Gen5
+                - title: GP_Fsv2 Compute Optimized (72 max vCores, 136GB max memory)
+                  const: GP_Fsv2
+                - title: GP_DC Confidential Compute (8 max vCores, 32GB max memory)
+                  const: GP_DC
+                - title: BC_Gen5 Standard (128 max vCores, 625 max memory)
+                  const: BC_Gen5
+                - title: BC_DC Confidential Compute (8 max vCores, 36GB max memory)
+                  const: BC_DC
+              capacity:
+                type: integer
+                title: vCores
+                description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
+                default: 2
+                enum:
+                - 2
+                - 4
+                - 6
+                - 8
+                - 10
+                - 12
+                - 14
+                - 16
+                - 18
+                - 20
+                - 24
+                - 32
+                - 40
+                - 80
+                - 128
+              max_size:
+                type: integer
+                title: Max Size in GB
+                description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1024).
+                minimum: 1
+                maximum: 1024
+            required:
+            - tier
+            - max_size
+            dependencies:
+              tier:
+                oneOf:
+                - properties:
+                    tier:
                       const: BC_Gen5
-                    - title: BC_DC Confidential Compute (8 max vCores, 36GB max memory)
-                      const: BC_DC
-                capacity:
-                  type: integer
-                  title: vCores
-                  description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
-                  default: 2
-                  enum:
-                    - 2
-                    - 4
-                    - 6
-                    - 8
-                    - 10
-                    - 12
-                    - 14
-                    - 16
-                    - 18
-                    - 20
-                    - 24
-                    - 32
-                    - 40
-                    - 80
-                    - 128
-                max_size:
-                  type: integer
-                  title: Max Size in GB
-                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1024).
-                  minimum: 1
-                  maximum: 1024
-              required:
-                - tier
-                - max_size
-              dependencies:
-                tier:
-                  oneOf:
-                    - properties:
-                        tier:
-                          const: BC_Gen5
-                        capacity:
-                          type: integer
-                          title: vCores
-                          description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
-                          default: 4
-                          enum:
-                            - 4
-                            - 6
+                    capacity:
+                      type: integer
+                      title: vCores
+                      description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
+                      default: 4
+                      enum:
+                      - 4
+                      - 6
+                      - 8
+                      - 10
+                      - 12
+                      - 14
+                      - 16
+                      - 18
+                      - 20
+                      - 24
+                      - 32
+                      - 40
+                      - 80
+                      - 128
+                    zone_redundant:
+                      type: boolean
+                      title: Zone Redundant
+                      description: Specifies whether to enable zone redundancy for the Azure SQL Elastic Pool.
+                      default: false
+                  required:
+                  - tier
+                  - capacity
+                  - zone_redundant
+                  dependencies:
+                    capacity:
+                      oneOf:
+                      - properties:
+                          capacity:
+                            const: 4
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1024).
+                            default: 250
+                            minimum: 1
+                            maximum: 1024
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            const: 6
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1536).
+                            default: 500
+                            minimum: 1
+                            maximum: 1536
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 8
                             - 10
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
+                            default: 500
+                            minimum: 1
+                            maximum: 2048
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 12
                             - 14
                             - 16
                             - 18
                             - 20
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 3072).
+                            default: 1024
+                            minimum: 1
+                            maximum: 3072
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 24
                             - 32
                             - 40
                             - 80
                             - 128
-                        zone_redundant:
-                          type: boolean
-                          title: Zone Redundant
-                          description: Specifies whether to enable zone redundancy for the Azure SQL Elastic Pool.
-                          default: false
-                      required:
-                        - tier
-                        - capacity
-                        - zone_redundant
-                      dependencies:
-                        capacity:
-                          oneOf:
-                            - properties:
-                                capacity:
-                                  const: 4
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1024).
-                                  default: 250
-                                  minimum: 1
-                                  maximum: 1024
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  const: 6
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1536).
-                                  default: 500
-                                  minimum: 1
-                                  maximum: 1536
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 8
-                                    - 10
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
-                                  default: 500
-                                  minimum: 1
-                                  maximum: 2048
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 12
-                                    - 14
-                                    - 16
-                                    - 18
-                                    - 20
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 3072).
-                                  default: 1024
-                                  minimum: 1
-                                  maximum: 3072
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 24
-                                    - 32
-                                    - 40
-                                    - 80
-                                    - 128
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 4096).
-                                  default: 1024
-                                  minimum: 1
-                                  maximum: 4096
-                              required:
-                                - max_size
-                    - properties:
-                        tier:
-                          enum:
-                            - GP_Gen5
-                            - GP_DC
-                        capacity:
-                          type: integer
-                          title: vCores
-                          description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
-                          default: 2
-                          enum:
-                            - 2
-                            - 4
-                            - 6
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 4096).
+                            default: 1024
+                            minimum: 1
+                            maximum: 4096
+                        required:
+                        - max_size
+                - properties:
+                    tier:
+                      enum:
+                      - GP_Gen5
+                      - GP_DC
+                    capacity:
+                      type: integer
+                      title: vCores
+                      description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
+                      default: 2
+                      enum:
+                      - 2
+                      - 4
+                      - 6
+                      - 8
+                      - 10
+                      - 12
+                      - 14
+                      - 16
+                      - 18
+                      - 20
+                      - 24
+                      - 32
+                      - 40
+                      - 80
+                      - 128
+                  required:
+                  - capacity
+                  dependencies:
+                    capacity:
+                      oneOf:
+                      - properties:
+                          capacity:
+                            const: 2
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 512).
+                            default: 125
+                            minimum: 1
+                            maximum: 512
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            const: 4
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 756).
+                            default: 250
+                            minimum: 1
+                            maximum: 756
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            const: 6
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1536).
+                            default: 500
+                            minimum: 1
+                            maximum: 1536
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 8
                             - 10
                             - 12
                             - 14
                             - 16
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
+                            default: 500
+                            minimum: 1
+                            maximum: 2048
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 18
                             - 20
                             - 24
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 3072).
+                            default: 1024
+                            minimum: 1
+                            maximum: 3072
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 32
                             - 40
                             - 80
                             - 128
-                      required:
-                        - capacity
-                      dependencies:
-                        capacity:
-                          oneOf:
-                            - properties:
-                                capacity:
-                                  const: 2
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 512).
-                                  default: 125
-                                  minimum: 1
-                                  maximum: 512
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  const: 4
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 756).
-                                  default: 250
-                                  minimum: 1
-                                  maximum: 756
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  const: 6
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1536).
-                                  default: 500
-                                  minimum: 1
-                                  maximum: 1536
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 8
-                                    - 10
-                                    - 12
-                                    - 14
-                                    - 16
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
-                                  default: 500
-                                  minimum: 1
-                                  maximum: 2048
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 18
-                                    - 20
-                                    - 24
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 3072).
-                                  default: 1024
-                                  minimum: 1
-                                  maximum: 3072
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 32
-                                    - 40
-                                    - 80
-                                    - 128
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 4096).
-                                  default: 1024
-                                  minimum: 1
-                                  maximum: 4096
-                              required:
-                                - max_size
-                    - properties:
-                        tier:
-                          const: GP_Fsv2
-                        capacity:
-                          type: integer
-                          title: vCores
-                          description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
-                          default: 8
-                          enum:
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 4096).
+                            default: 1024
+                            minimum: 1
+                            maximum: 4096
+                        required:
+                        - max_size
+                - properties:
+                    tier:
+                      const: GP_Fsv2
+                    capacity:
+                      type: integer
+                      title: vCores
+                      description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
+                      default: 8
+                      enum:
+                      - 8
+                      - 10
+                      - 12
+                      - 14
+                      - 16
+                      - 18
+                      - 20
+                      - 24
+                      - 32
+                      - 36
+                      - 72
+                  required:
+                  - capacity
+                  dependencies:
+                    capacity:
+                      oneOf:
+                      - properties:
+                          capacity:
+                            enum:
                             - 8
                             - 10
                             - 12
                             - 14
                             - 16
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
+                            default: 500
+                            minimum: 1
+                            maximum: 2048
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 18
                             - 20
                             - 24
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 3072).
+                            default: 1024
+                            minimum: 1
+                            maximum: 3072
+                        required:
+                        - max_size
+                      - properties:
+                          capacity:
+                            enum:
                             - 32
                             - 36
                             - 72
-                      required:
-                        - capacity
-                      dependencies:
-                        capacity:
-                          oneOf:
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 8
-                                    - 10
-                                    - 12
-                                    - 14
-                                    - 16
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
-                                  default: 500
-                                  minimum: 1
-                                  maximum: 2048
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 18
-                                    - 20
-                                    - 24
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 3072).
-                                  default: 1024
-                                  minimum: 1
-                                  maximum: 3072
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 32
-                                    - 36
-                                    - 72
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 4096).
-                                  default: 1024
-                                  minimum: 1
-                                  maximum: 4096
-                              required:
-                                - max_size
-                    - properties:
-                        tier:
-                          const: BC_DC
-                        capacity:
-                          type: integer
-                          title: vCores
-                          description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
-                          default: 2
-                          enum:
-                            - 2
-                            - 4
-                            - 6
-                            - 8
-                        max_size:
-                          type: integer
-                          title: Max Size in GB
-                          description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 512).
-                          default: 225
-                          minimum: 1
-                          maximum: 768
-                      required:
-                        - capacity
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 4096).
+                            default: 1024
+                            minimum: 1
+                            maximum: 4096
+                        required:
                         - max_size
-                    - properties:
-                        tier:
-                          const: GP_DC
-                        capacity:
-                          type: integer
-                          title: vCores
-                          description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
-                          default: 2
-                          enum:
-                            - 2
-                            - 4
-                            - 6
-                            - 8
-                      required:
-                        - capacity
-                      dependencies:
-                        capacity:
-                          oneOf:
-                            - properties:
-                                capacity:
-                                  const: 2
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 756).
-                                  default: 225
-                                  minimum: 1
-                                  maximum: 756
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  const: 4
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1536).
-                                  default: 500
-                                  minimum: 1
-                                  maximum: 1536
-                              required:
-                                - max_size
-                            - properties:
-                                capacity:
-                                  enum:
-                                    - 6
-                                    - 8
-                                max_size:
-                                  type: integer
-                                  title: Max Size in GB
-                                  description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
-                                  default: 750
-                                  minimum: 1
-                                  maximum: 2048
-                              required:
-                                - max_size
-            - properties:
-                model:
-                  const: DTU
-                tier:
-                  type: string
-                  title: SKU Tier
-                  description: The DTU tier for the Azure SQL Elastic Pool.
-                  default: Standard
-                  oneOf:
-                    - title: Basic (1600 DTUs max)
-                      const: Basic
-                    - title: Standard (3000 DTUs max)
-                      const: Standard
-                    - title: Premium (4000 DTUs max)
-                      const: Premium
+                - properties:
+                    tier:
+                      const: BC_DC
+                    capacity:
+                      type: integer
+                      title: vCores
+                      description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
+                      default: 2
+                      enum:
+                      - 2
+                      - 4
+                      - 6
+                      - 8
+                    max_size:
+                      type: integer
+                      title: Max Size in GB
+                      description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 512).
+                      default: 225
+                      minimum: 1
+                      maximum: 768
                   required:
-                    - tier
-              dependencies:
-                tier:
-                  oneOf:
-                    - properties:
-                        tier:
-                          const: Basic
-                        capacity:
-                          type: integer
-                          title: DTUs
-                          description: The amount of DTUs to allocate to the Azure SQL Elastic Pool.
-                          default: 50
-                          enum:
-                            - 50
-                            - 100
-                            - 200
-                            - 300
-                            - 400
-                            - 800
-                            - 1200
-                            - 1600
-                      required:
-                        - capacity
-                    - properties:
-                        tier:
-                          const: Standard
-                        capacity:
-                          type: integer
-                          title: DTUs
-                          description: The amount of DTUs to allocate to the Azure SQL Elastic Pool.
-                          default: 50
-                          enum:
-                            - 50
-                            - 100
-                            - 200
-                            - 300
-                            - 400
-                            - 800
-                            - 1200
-                            - 1600
-                            - 2000
-                            - 2500
-                            - 3000
-                        max_size:
-                          type: integer
-                          title: Max Size in GB
-                          description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 50, maximum of 500).
-                          default: 50
-                          minimum: 50
-                          maximum: 500
-                      required:
-                        - capacity
+                  - capacity
+                  - max_size
+                - properties:
+                    tier:
+                      const: GP_DC
+                    capacity:
+                      type: integer
+                      title: vCores
+                      description: The amount of vCores to allocate to the Azure SQL Elastic Pool.
+                      default: 2
+                      enum:
+                      - 2
+                      - 4
+                      - 6
+                      - 8
+                  required:
+                  - capacity
+                  dependencies:
+                    capacity:
+                      oneOf:
+                      - properties:
+                          capacity:
+                            const: 2
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 756).
+                            default: 225
+                            minimum: 1
+                            maximum: 756
+                        required:
                         - max_size
-                    - properties:
-                        tier:
-                          const: Premium
-                        capacity:
-                          type: integer
-                          title: DTUs
-                          description: The amount of DTUs to allocate to the Azure SQL Elastic Pool.
-                          default: 125
-                          enum:
-                            - 125
-                            - 250
-                            - 500
-                            - 1000
-                            - 1500
-                            - 2000
-                            - 2500
-                            - 3000
-                            - 3500
-                            - 4000
-                        zone_redundant:
-                          type: boolean
-                          title: Zone Redundant
-                          description: Specifies whether to enable zone redundancy for the Azure SQL Elastic Pool.
-                          default: false
-                        max_size:
-                          type: integer
-                          title: Max Size in GB
-                          description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 50, maximum of 1024).
-                          default: 50
-                          minimum: 50
-                          maximum: 1024
-                      required:
-                        - tier
+                      - properties:
+                          capacity:
+                            const: 4
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 1536).
+                            default: 500
+                            minimum: 1
+                            maximum: 1536
+                        required:
                         - max_size
-                        - zone_redundant
+                      - properties:
+                          capacity:
+                            enum:
+                            - 6
+                            - 8
+                          max_size:
+                            type: integer
+                            title: Max Size in GB
+                            description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 1, maximum of 2048).
+                            default: 750
+                            minimum: 1
+                            maximum: 2048
+                        required:
+                        - max_size
+          - properties:
+              model:
+                const: DTU
+              tier:
+                type: string
+                title: SKU Tier
+                description: The DTU tier for the Azure SQL Elastic Pool.
+                default: Standard
+                oneOf:
+                - title: Basic (1600 DTUs max)
+                  const: Basic
+                - title: Standard (3000 DTUs max)
+                  const: Standard
+                - title: Premium (4000 DTUs max)
+                  const: Premium
+                required:
+                - tier
+            dependencies:
+              tier:
+                oneOf:
+                - properties:
+                    tier:
+                      const: Basic
+                    capacity:
+                      type: integer
+                      title: DTUs
+                      description: The amount of DTUs to allocate to the Azure SQL Elastic Pool.
+                      default: 50
+                      enum:
+                      - 50
+                      - 100
+                      - 200
+                      - 300
+                      - 400
+                      - 800
+                      - 1200
+                      - 1600
+                  required:
+                  - capacity
+                - properties:
+                    tier:
+                      const: Standard
+                    capacity:
+                      type: integer
+                      title: DTUs
+                      description: The amount of DTUs to allocate to the Azure SQL Elastic Pool.
+                      default: 50
+                      enum:
+                      - 50
+                      - 100
+                      - 200
+                      - 300
+                      - 400
+                      - 800
+                      - 1200
+                      - 1600
+                      - 2000
+                      - 2500
+                      - 3000
+                    max_size:
+                      type: integer
+                      title: Max Size in GB
+                      description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 50, maximum of 500).
+                      default: 50
+                      minimum: 50
+                      maximum: 500
+                  required:
+                  - capacity
+                  - max_size
+                - properties:
+                    tier:
+                      const: Premium
+                    capacity:
+                      type: integer
+                      title: DTUs
+                      description: The amount of DTUs to allocate to the Azure SQL Elastic Pool.
+                      default: 125
+                      enum:
+                      - 125
+                      - 250
+                      - 500
+                      - 1000
+                      - 1500
+                      - 2000
+                      - 2500
+                      - 3000
+                      - 3500
+                      - 4000
+                    zone_redundant:
+                      type: boolean
+                      title: Zone Redundant
+                      description: Specifies whether to enable zone redundancy for the Azure SQL Elastic Pool.
+                      default: false
+                    max_size:
+                      type: integer
+                      title: Max Size in GB
+                      description: The maximum size of the Azure SQL Elastic Pool in GB. (Minimum of 50, maximum of 1024).
+                      default: 50
+                      minimum: 50
+                      maximum: 1024
+                  required:
+                  - tier
+                  - max_size
+                  - zone_redundant
     database:
       type: object
       title: Database settings
       required:
-        - min_capacity
-        - max_capacity
+      - min_capacity
+      - max_capacity
       properties:
         min_capacity:
           type: integer
@@ -738,7 +735,7 @@ params:
       type: object
       title: Auditing Retention Configuration
       required:
-        - data_protection
+      - data_protection
       properties:
         data_protection:
           title: Data protection settings
@@ -751,14 +748,14 @@ params:
       type: object
       title: Networking
       required:
-        - auto
+      - auto
       properties:
         auto:
           title: Automatic CIDR Selection
           type: boolean
           description: Enabling this will automatically select an available CIDR range for your database. Unchecking will require you to specify the CIDR.
           default: true
-          $md.immutable: true
+          "$md.immutable": true
       dependencies:
         auto:
           oneOf:
@@ -772,10 +769,10 @@ params:
                 title: Subnet CIDR
                 type: string
                 description: Specify a /28 CIDR range within your vnet to create subnet for the database. The subnet CIDR cannot be changed after creation.
-                $md.immutable: true
-                pattern: ^(?:10\.(?:[0-9]|[0-9]{2}|1[0-9][0-9]|2[0-4][0-9]|25[0-5])|172\.(?:1[6-9]|2[0-9]|3[0-1])|192\.168)(?:\.(?:[0-9]|[0-9]{2}|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){2}\/28$
+                "$md.immutable": true
+                pattern: "^(?:10\\.(?:[0-9]|[0-9]{2}|1[0-9][0-9]|2[0-4][0-9]|25[0-5])|172\\.(?:1[6-9]|2[0-9]|3[0-1])|192\\.168)(?:\\.(?:[0-9]|[0-9]{2}|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){2}\\/28$"
                 message:
-                  pattern: "Must be a /28 range from within the VNet CIDR"
+                  pattern: Must be a /28 range from within the VNet CIDR
             required:
             - cidr
     monitoring:
@@ -788,208 +785,214 @@ params:
           type: string
           default: AUTOMATED
           oneOf:
-            - const: AUTOMATED
-              title: Automated
-            - const: CUSTOM
-              title: Custom
-            - const: DISABLED
-              title: Disabled
+          - const: AUTOMATED
+            title: Automated
+          - const: CUSTOM
+            title: Custom
+          - const: DISABLED
+            title: Disabled
       dependencies:
         mode:
           oneOf:
-            - properties:
-                mode:
-                  const: AUTOMATED
-            - properties:
-                mode:
-                  const: DISABLED
-            - properties:
-                mode:
-                  const: CUSTOM
-                alarms:
-                  type: object
-                  title: Alarms
-                  properties:
-                    cpu_metric_alert:
-                      title: CPU
-                      type: object
-                      <<: *monitor_alarm_metric
-                    dtu_percent_metric_alert:
-                      title: DTU
-                      type: object
-                      <<: *monitor_alarm_metric
-                    storage_metric_alert:
-                      title: Storage
-                      type: object
-                      <<: *monitor_alarm_metric
+          - properties:
+              mode:
+                const: AUTOMATED
+          - properties:
+              mode:
+                const: DISABLED
+          - properties:
+              mode:
+                const: CUSTOM
+              alarms:
+                type: object
+                title: Alarms
+                properties:
+                  cpu_metric_alert:
+                    title: CPU
+                    type: object
+                    required: *1
+                    properties: *2
+                  dtu_percent_metric_alert:
+                    title: DTU
+                    type: object
+                    required: *1
+                    properties: *2
+                  storage_metric_alert:
+                    title: Storage
+                    type: object
+                    required: *1
+                    properties: *2
   dependencies:
     elasticpool:
       oneOf:
-        - properties:
-            elasticpool:
-              properties:
-                tier:
-                  const: Basic
-            database:
-              properties:
-                min_capacity:
-                  description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 5)
-                  default: 0
-                  minimum: 0
-                  maximum: 5
-                max_capacity:
-                  description: The maximum amount of DTUs to allocate per database. (Minimum of 1, maximum of 5)
-                  default: 1
-                  minimum: 1
-                  maximum: 5
-        - properties:
-            elasticpool:
-              properties:
-                tier:
-                  const: Standard
-            database:
-              properties:
-                min_capacity:
-                  description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity or allocated DTUs**. (Minimum of 0, maximum of 3000)
-                  default: 0
-                  minimum: 0
-                  maximum: 3000
-                max_capacity:
-                  description: The maximum amount of DTUs to allocate per database. **Cannot exceed allocated DTUs**. (Minimum of 10, maximum of 3000)
-                  default: 10
-                  minimum: 10
-                  maximum: 3000
-        - properties:
-            elasticpool:
-              properties:
-                tier:
-                  const: Premium
-            database:
-              properties:
-                min_capacity:
-                  description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity or allocated DTUs**. (Minimum of 0, maximum of 4000)
-                  default: 0
-                  minimum: 0
-                  maximum: 4000
-                max_capacity:
-                  description: The maximum amount of DTUs to allocate per database. **Cannot exceed allocated DTUs**. (Minimum of 25, maximum of 4000)
-                  default: 25
-                  minimum: 25
-                  maximum: 4000
-        - properties:
-            elasticpool:
-              properties:
-                tier:
-                  enum:
-                    - GP_Gen5
-                    - GP_DC
-                    - GP_Fsv2
-            database:
-              properties:
-                min_capacity:
-                  description: The minimum amount of vCores to allocate per database. **Cannot exceed Maximum capacity or allocated vCores**. (Minimum of 0, maximum of 128)
-                  default: 0
-                  minimum: 0
-                  maximum: 128
-                max_capacity:
-                  description: The maximum amount of vCores to allocate per database. **Cannot exceed allocated vCores**. (Minimum of 0.25, maximum of 128)
-                  default: 0.25
-                  minimum: 0.25
-                  maximum: 128
-        - properties:
-            elasticpool:
-              properties:
-                tier:
-                  enum:
-                    - BC_Gen5
-                    - BC_DC
-            database:
-              properties:
-                min_capacity:
-                  description: The minimum amount of vCores to allocate per database. **Cannot exceed Maximum capacity or allocated vCores**. (Minimum of 0, maximum of 128)
-                  default: 0
-                  minimum: 0
-                  maximum: 128
-                max_capacity:
-                  description: The maximum amount of vCores to allocate per database. **Cannot exceed allocated vCores**. (Minimum of 0.25, maximum of 128)
-                  default: 0.25
-                  minimum: 0.25
-                  maximum: 128
-
+      - properties:
+          elasticpool:
+            properties:
+              tier:
+                const: Basic
+          database:
+            properties:
+              min_capacity:
+                description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity**. (Minimum of 0, maximum of 5)
+                default: 0
+                minimum: 0
+                maximum: 5
+              max_capacity:
+                description: The maximum amount of DTUs to allocate per database. (Minimum of 1, maximum of 5)
+                default: 1
+                minimum: 1
+                maximum: 5
+      - properties:
+          elasticpool:
+            properties:
+              tier:
+                const: Standard
+          database:
+            properties:
+              min_capacity:
+                description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity or allocated DTUs**. (Minimum of 0, maximum of 3000)
+                default: 0
+                minimum: 0
+                maximum: 3000
+              max_capacity:
+                description: The maximum amount of DTUs to allocate per database. **Cannot exceed allocated DTUs**. (Minimum of 10, maximum of 3000)
+                default: 10
+                minimum: 10
+                maximum: 3000
+      - properties:
+          elasticpool:
+            properties:
+              tier:
+                const: Premium
+          database:
+            properties:
+              min_capacity:
+                description: The minimum amount of DTUs to allocate per database. **Cannot exceed Maximum capacity or allocated DTUs**. (Minimum of 0, maximum of 4000)
+                default: 0
+                minimum: 0
+                maximum: 4000
+              max_capacity:
+                description: The maximum amount of DTUs to allocate per database. **Cannot exceed allocated DTUs**. (Minimum of 25, maximum of 4000)
+                default: 25
+                minimum: 25
+                maximum: 4000
+      - properties:
+          elasticpool:
+            properties:
+              tier:
+                enum:
+                - GP_Gen5
+                - GP_DC
+                - GP_Fsv2
+          database:
+            properties:
+              min_capacity:
+                description: The minimum amount of vCores to allocate per database. **Cannot exceed Maximum capacity or allocated vCores**. (Minimum of 0, maximum of 128)
+                default: 0
+                minimum: 0
+                maximum: 128
+              max_capacity:
+                description: The maximum amount of vCores to allocate per database. **Cannot exceed allocated vCores**. (Minimum of 0.25, maximum of 128)
+                default: 0.25
+                minimum: 0.25
+                maximum: 128
+      - properties:
+          elasticpool:
+            properties:
+              tier:
+                enum:
+                - BC_Gen5
+                - BC_DC
+          database:
+            properties:
+              min_capacity:
+                description: The minimum amount of vCores to allocate per database. **Cannot exceed Maximum capacity or allocated vCores**. (Minimum of 0, maximum of 128)
+                default: 0
+                minimum: 0
+                maximum: 128
+              max_capacity:
+                description: The maximum amount of vCores to allocate per database. **Cannot exceed allocated vCores**. (Minimum of 0.25, maximum of 128)
+                default: 0.25
+                minimum: 0.25
+                maximum: 128
 connections:
   required:
   - azure_service_principal
   - azure_virtual_network
   properties:
     azure_service_principal:
-      $ref: massdriver/azure-service-principal
+      "$ref": massdriver/azure-service-principal
     azure_virtual_network:
-      $ref: massdriver/azure-virtual-network
-
+      "$ref": massdriver/azure-virtual-network
 artifacts:
   required:
-    - mssql_authentication
+  - mssql_authentication
   properties:
     mssql_authentication:
-      $ref: massdriver/mssql-authentication
-
+      "$ref": massdriver/mssql-authentication
 ui:
   ui:order:
-    - server
-    - elasticpool
-    - database
-    - audit
-    - network
-    - monitoring
-    - "*"
+  - server
+  - elasticpool
+  - database
+  - audit
+  - network
+  - monitoring
+  - "*"
   server:
     ui:order:
-      - version
-      - admin_login
-      - "*"
+    - version
+    - admin_login
+    - "*"
   elasticpool:
     ui:order:
-      - model
-      - tier
-      - capacity
-      - max_size
-      - zone_redundant
-      - "*"
+    - model
+    - tier
+    - capacity
+    - max_size
+    - zone_redundant
+    - "*"
   database:
     ui:order:
-      - min_capacity
-      - max_capacity
-      - "*"
+    - min_capacity
+    - max_capacity
+    - "*"
   audit:
     ui:order:
-      - data_protection
-      - "*"
+    - data_protection
+    - "*"
   network:
     ui:order:
-      - auto
-      - cidr
-      - "*"
+    - auto
+    - cidr
+    - "*"
   monitoring:
     ui:order:
-      - mode
-      - alarms
-      - '*'
+    - mode
+    - alarms
+    - "*"
     alarms:
       ui:order:
-        - cpu_metric_alert
-        - dtu_percent_metric_alert
-        - storage_metric_alert
-        - '*'
-      cpu_metric_alert: &monitor_alarm_metric_ui
-        ui:order:
-          - severity
-          - operator
-          - aggregation
-          - frequency
-          - window_size
-          - threshold
-          - '*'
+      - cpu_metric_alert
+      - dtu_percent_metric_alert
+      - storage_metric_alert
+      - "*"
+      cpu_metric_alert:
+        ui:order: &3
+        - severity
+        - operator
+        - aggregation
+        - frequency
+        - window_size
+        - threshold
+        - "*"
       dtu_percent_metric_alert:
-        <<: *monitor_alarm_metric_ui
+        ui:order: *3
       storage_metric_alert:
-        <<: *monitor_alarm_metric_ui
+        ui:order: *3
+steps:
+- path: src
+  provisioner: opentofu
+  config:
+    checkov:
+      enable: true
