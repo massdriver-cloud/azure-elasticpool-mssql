@@ -1,7 +1,6 @@
 resource "massdriver_artifact" "mssql_authentication" {
-  field                = "mssql_authentication"
-  provider_resource_id = azurerm_mssql_server.main.id
-  name                 = "Azure SQL Server ${var.md_metadata.name_prefix} (${azurerm_mssql_server.main.id})"
+  field    = "mssql_authentication"
+  name     = "Azure SQL Server ${var.md_metadata.name_prefix} (${azurerm_mssql_server.main.id})"
   artifact = jsonencode(
     {
       data = {
