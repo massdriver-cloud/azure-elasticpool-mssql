@@ -23,8 +23,8 @@ provider "azurerm" {
     }
   }
 
-  client_id       = var.azure_service_principal.data.client_id
-  tenant_id       = var.azure_service_principal.data.tenant_id
-  client_secret   = var.azure_service_principal.data.client_secret
-  subscription_id = var.azure_service_principal.data.subscription_id
+  client_id       = var.azure_authentication.client_id
+  tenant_id       = var.azure_authentication.data.tenant_id
+  client_secret   = var.azure_authentication.data.client_secret
+  subscription_id = var.azure_authentication.data.subscription_id
 }
